@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" width type="x-icon" href="{{ url_for('static',filename='icontab.png') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suggesto</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/fac2c0482b.js" crossorigin="anonymous"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.0/papaparse.min.js"></script>
+
+    <script>
+        $(function () {
+            $(".toggle").on("click", function () {
+                if ($(".item").hasClass("active")) {
+                    $(".item").removeClass("active");
+                } else {
+                    $(".item").addClass("active");
+                }
+            });
+        });
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            console.log(scrolled);
+        });
+    </script>
+    <style>
+        body {
+            background-image: url("{{ url_for('static',filename='image.jpg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <ul class="menu">
+
+            <li class="logo"><a class="logotext" href="/home"><img src="{{ url_for('static',filename='logoaab.png') }}"
+                        alt="Suggests"></a></li>
+            <li class="item"><a id="home" class="itemtext" href="/home">Home</a></li>
+            <li id="about" class="item"><a class="itemtext" href="/about">About</a></li>
+            <li id="log" class="item button"><a href="/login">Log In</a></li>
+            <li id="sign" class="item button secondary"><a href="/registration">Sign Up</a></li>
+            <li class="profile"><span><ion-icon id="profileicon" name="person-circle-outline"></ion-icon></span></li>
+            <li class="toggle"><span class="bars"></span></li>
+        </ul>
+    </nav>
+    <div class="profilemenu">
+        <ul>
+            {% if user %}
+            <li>Name : &nbsp;&nbsp;<font color="#1b8de4">{{ user["username"] }}</FONT></li>
+            {% endif %}
+            <li class="logout"><a href="/logout">LogOut</a></li>
+            <ion-icon id="menucross" name="close-outline"></ion-icon>
+        </ul>
+    </div>
+
+
+
+    <div class="mainhome">
+        <div class="maintext">
+            <main class="text-container">
+                <svg class="text-stroke" viewBox="0 0 500 100" width="80%" height="100%">
+                  <text class="text" x="20" y="75">Movie Recommendation System</text>
+                </svg>
+              </main>
+            <h4>(To get suggestions, enter the movie you like)</h4>
+        </div>
+        <div class="input">
+            <input type="text" name="movie" class="movie" id="autocomplete"
+                placeholder="{% if user %}{{ user["username"] }}{% endif %} ,Enter your favourite Movie Name..." autocomplete="off" required="required"
+                id="autocomplete">
+            <i id="cross" class="fa-regular fa-circle-xmark" style="color: #ffffff;"></i>
+            <i id="qwe" class="fas fa-search"></i>
+            <div id="autocompletelist">
+            </div>
+        </div>
+        <div class="mainbutton">
+            <button id="buttoninput" class="button-33 movie-button" onclick="" role="button">Recommend</button>
+        </div>
+    </div>
+
+    <div id="loader" class="center">
+        <div class="ring"></div>
+        <span></span>
+    </div>
+
+
+    <div class="fail">
+        <center>
+            <h3>Sorry! The movie you requested is not in our database.
+                Please check the spelling or try with other movies that exists in our database!</h3>
+                <h4> You can Check Movie exists or not by clicking on below button.</h4>
+        </center>
+        <center><button id="checkkk" class="check">Go to Check!</button></center>
+    </div>
+
+    <div class="results">
+        <center>
+            <h2 id="name" class="text-uppercase"></h2>
+        </center>
+    </div>
+
+    <div class="scrolltop">
+        <button class="scroll">Go to Search Area</button>
+        <span class="fa-solid fa-arrow-up"></span>
+    </div>
+
+    <div class="headsearch">
+        <h5>Refer Any Movie from below <b>Dropdown</b>, if can't think any at the moment!</h5>
+        <h6>(click on any movie name to goto input field with value)</h6>
+    </div>
+
+    <div class="wrappersearch">
+        <div id="selectbtn" class="select-btn">
+            <span>Available Movies!</span>
+            <!-- <i id="crosssearch" class="fa-regular fa-circle-xmark" style="color: #ffffff;"></i> -->
+            <i id="angle" class="fa-solid fa-angle-down"></i>
+        </div>
+        <div class="searchcontent">
+            <div class="search">
+                <!-- <i class="fa-solid fa-magnifying-glass"></i>
+                <input class="searchin" spellcheck="false" type="text" placeholder="Search"> -->
+            </div>
+            <ul class="options">
+                {% for i in suggestions %}
+                <li id="inputtitle">{{i}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <button id="closedr">Close dropdown</button>
+    </div>
+
+
+    <footer id="footer">
+        <div class="row">
+            <div id="threecol" class="col">
+                <img id="footerlogo" class="footerlogo" src="{{ url_for('static',filename='logoaab.png') }}" alt="">
+                <p>Movie Recommendation System :
+                    It suggests you a movie according to the movie
+                    that you have given to us,
+                    and it will return 10 movies
+                    with the movie details of given movie.
+                </p>
+            </div>
+            <div class="col" id="fourcol">
+                <h3>Invented By: <div class="underline"><span></span></div>
+                </h3>
+                <p id="balram">Balram Dhakad</p>
+                <p id="ayush">Ayush Shukla</p>
+                <p id="aditya">Aaditya Choudhary</p>
+                <p class="email-id">sc21cs301027@medicaps.ac.in</p>
+                <h4>+91-9131116713</h4>
+            </div>
+            <div class="col" id="twocol">
+                <h3>Links <div class="underline"><span></span></div>
+                </h3>
+                <ul>
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/about">About us</a></li>
+                    <li><a href="">Explore</a></li>
+                </ul>
+            </div>
+            <div id="onecol" class="col">
+                <h3>Email Us- <div class="underline"><span></span></div>
+                </h3>
+                <form>
+                    <i class="far fa-envelope"></i>
+                    <input type="text" placeholder="Enter E-mail ID" required>
+                    <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                </form>
+                <div class="social-icons">
+                    <i id="fb" class="fab fa-facebook-f"></i>
+                    <i id="in" class="fab fa-instagram"></i>
+                    <i id="wh" class="fab fa-whatsapp"></i>
+                    <i id="tw" class="fab fa-twitter"></i>
+                </div>
+
+            </div>
+        </div>
+        <hr>
+        <p class="copyright">@Minor Project </p>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='recommend.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='click.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='scrollreveal.js') }}"></script>
+</body>
+
+</html>

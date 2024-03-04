@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" width type="x-icon" href="{{ url_for('static',filename='icontab.png') }}">
+    <title>Log In</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='signup.css') }}">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.0/papaparse.min.js"></script>
+    <script>
+        $(function () {
+            $(".toggle").on("click", function () {
+                if ($(".item").hasClass("active")) {
+                    $(".item").removeClass("active");
+                } else {
+                    $(".item").addClass("active");
+                }
+            });
+        });
+    </script>
+    <style>
+        body{
+            background: url("{{ url_for('static',filename='signup.jpg') }}") no-repeat;
+            background-size: cover;
+            background-position: center;
+            /* height: 100vh; */
+            margin: 0px;
+            overflow-x: hidden;
+        }
+        nav{
+            background: #34313134;
+        }
+        .wrapper{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <ul class="menu">
+           
+            <li class="logo" id="logo"><a class="logotext" href="#"><img src="{{ url_for('static',filename='logoaab.png') }}" alt="Suggests"></a></li>
+            <li class="item" id="home"><a class="itemtext" href="#">Home</a></li>
+            <li class="item" id="about"><a class="itemtext" href="#">About</a></li>
+            <li class="item button"><a href="/login">Log In</a></li>
+            <li class="item button secondary"><a href="/registration">Sign Up</a></li>
+            <li class="toggle"><span class="bars"></span></li>
+        </ul>
+    </nav>
+    
+     <div class="wrapper" id="login">
+        <span class="icon-close" id="iconlogin"><ion-icon name="close"></ion-icon></span>
+        <div class="form-box login">
+            <h2>Login</h2>
+            <form action="/login" method="post">
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                    <input type="email" id="email" name="email" autocomplete="off" required>
+                    <label>Email</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    <input type="password" id="password" name="password" autocomplete="off" required>
+                    <label>Password</label>
+                </div>
+                <div class="remember-forgot">
+                    <label><input type="checkbox" required>Remember me</label>
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <div class="login-register">
+                    <p>Don't have an account?<a class="register-link" href="/registration">Register</a></p>
+                    {% if loginerror %}
+                    <h6 id="succe">{{ loginerror }}</h6>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+     </div>
+     <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-compat.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-auth-compat.js"></script>
+     <script src="{{ url_for('static',filename='signup.js') }}"></script>
+     <script src="https://unpkg.com/scrollreveal"></script>
+     <script type="text/javascript" src="{{ url_for('static',filename='scrollreveal.js') }}"></script>
+</body>
+
+</html>

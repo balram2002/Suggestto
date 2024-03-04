@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+.navbar{
+    position: relative;
+    width: 400px;
+    height: 70px;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+.navbar ul{
+    display: flex;
+    width: 350px;
+}
+.navbar ul li{
+    position: relative;
+    list-style: none;
+    width: 70px;
+    height: 70px;
+    z-index: 1;
+}
+.navbar ul li a{
+    position: relative;
+    display: block;
+    line-height: 75px;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+}
+.navbar ul li a .icon{
+    position: relative;
+    display: block;
+    line-height: 75px;
+    font-size: 1.5em;
+    text-align: center;
+    transition: 0.5s;
+    color: #222327;
+}
+.navbar ul li:hover a .icon{
+    transform: translateY(-35px);
+}
+    </style>
+</head>
+<body>
+  <div className="navbar">
+    <ul>
+        <li className="list">
+            <a href="">
+                <span className="icon"><FaHome /></span>
+                <span className="text">Home</span>
+            </a>
+            <a href="">
+                <span className="icon"><BiMoviePlay /></span>
+                <span className="text">Movies</span>
+            </a>
+            <a href="">
+                <span className="icon"><RiSlideshow3Line /></span>
+                <span className="text">TV Shows</span>
+            </a>
+            <a href="">
+                <span className="icon"><MdOutlineExplore /></span>
+                <span className="text">Explore</span>
+            </a>
+        </li>
+    </ul>
+  </div>
+</body>
+</html>

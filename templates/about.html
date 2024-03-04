@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" width type="x-icon" href="{{ url_for('static',filename='icontab.png') }}">
+    <title>About Project</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='about.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='dropdown.css') }}">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/fac2c0482b.js" crossorigin="anonymous"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.0/papaparse.min.js"></script>
+    <script>
+        $(function () {
+            $(".toggle").on("click", function () {
+                if ($(".item").hasClass("active")) {
+                    $(".item").removeClass("active");
+                } else {
+                    $(".item").addClass("active");
+                }
+            });
+        });
+    </script>
+    <style>
+        body {
+            background: url("{{ url_for('static',filename='abouttt.jpg') }}") no-repeat;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            backdrop-filter: blur(2px);
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <ul class="menu">
+
+            <li class="logo"><a class="logotext" href="/home"><img src="{{ url_for('static',filename='logoaab.png') }}"
+                        alt="Suggests"></a></li>
+            <li class="item"><a class="itemtext" href="/home">Home</a></li>
+            <li class="item"><a id="about" class="itemtext" href="/about">About</a></li>
+            <li id="log" class="item button"><a href="/login">Log In</a></li>
+            <li id="sign" class="item button secondary"><a href="/registration">Sign Up</a></li>
+            <li class="profile"><span><ion-icon id="profileicon" name="person-circle-outline"></ion-icon></span></li>
+            <li class="toggle"><span class="bars"></span></li>
+        </ul>
+    </nav>
+    <div class="profilemenu">
+        <ul>
+            {% if user %}
+            <li>Name : &nbsp;&nbsp;<font color="#1b8de4">{{ user["username"] }}</FONT></li>
+            {% endif %}
+            <li class="logout"><a href="/logout">LogOut</a></li>
+            <ion-icon id="menucross" name="close-outline"></ion-icon>
+        </ul>
+    </div>
+
+    <div id="qwer" class="container">
+        <form class="form">
+            <div class="form__group">
+                <label for="country">Find Movie Exists or Not</label>
+                <select id="country" name="country" data-dropdown>
+                    <option value="">Find Movie Exists or Not</option>
+                    {% for i in suggestionss %}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- <button type="submit" class="btn">Submit</button> -->
+        </form>
+    </div>
+
+    <div class="aboutinfo">
+        <div class="head1">
+            <h4><b>Please make sure Searched Movie Was In our Database, as Our recommendations are based on Database
+                    movies
+                    information.</b> </h4>
+        </div>
+        <div class="aboutheading">
+            <h1>Project Working:</h1>
+        </div>
+        <div class="head2">
+            <h4>Process of Reccomending Movies :-</h4>
+            <h6>1. When You Entered a movie.</h6>
+            <h6>2. Entered movie is checked whether it exists in our database or not.</h6>
+            <h6>3. If exists, than machine learning modal runs and returns 10 movies(that exists in database).</h6>
+            <h6>4. If not exists, than fail div is runned.</h6>
+            <h6>5. After getting recommendations, than TMDB-API is called and details of recommended movies like-<br>
+            </h6>
+            <ul>
+                <li>Posters</li>
+                <li>Original Title</li>
+                <li>Overview</li>
+                <li>Release Date</li>
+                <li>Runtime</li>
+                <li>Release Status</li>
+                <li>genres</li>
+                <li>Top Cast</li>
+            </ul>
+            <h6>After Getting response from api, than displayed on home page by <b>AJAX request</b>.</h6>
+        </div>
+    </div>
+
+    <div class="mainabout">
+        <div class="aboutlogo">
+            <img src="{{ url_for('static',filename='logoaab1.png') }}" alt="Suggesto">
+        </div>
+        <div class="aboutmaintext">
+            <div class="aboutheading">
+                <h1>About Project:</h1>
+
+            </div>
+            <div class="abouttext">
+                <h4>A movie content-based recommendation system aims to provide personalized movie recommendations to
+                    users by analyzing the content and attributes of movies. The main objectives of such a system
+                    include:
+                </h4>
+                <ul class="ul">
+                    <li><b>Personalization:</b> To deliver movie suggestions tailored to the individual preferences and
+                        tastes of users, ensuring a more engaging and relevant viewing experience.
+                    </li>
+                    <li><b>Content Analysis:</b> Analyze the content features of movies, such as genre, director,
+                        actors, plot keywords, and user reviews, to understand the inherent characteristics of each
+                        film.
+                    </li>
+                    <li><b>Diversity:</b> Provide a diverse selection of movie recommendations to prevent users from
+                        being exposed to a narrow range of content and to cater to various interests.
+                    </li>
+                    <li><b>Scalability:</b> Efficiently handle a vast movie database and a large number of users to
+                        ensure real-time or near-real-time recommendations.
+                    </li>
+                    <li><b>Performance Metrics:</b> Evaluate the system's performance using metrics like accuracy,
+                        precision, recall, and user engagement to continually improve recommendation quality.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <footer>
+        <div class="row">
+            <div class="col">
+                <img id="footerlogo" class="footerlogo" src="{{ url_for('static',filename='logoaab.png') }}" alt="">
+                <p>Movie Recommendation System :
+                    It suggests you a movie according to the movie
+                    that you have given to us,
+                    and it will return 10 movies
+                    with the movie details of given movie.
+                </p>
+            </div>
+            <div class="col">
+                <h3>Invented By: <div class="underline"><span></span></div>
+                </h3>
+                <p id="balram">Balram Dhakad</p>
+                <p id="ayush">Ayush Shukla</p>
+                <p id="aditya">Aaditya Choudhary</p>
+                <p class="email-id">sc21cs301027@medicaps.ac.in</p>
+                <h4>+91-9131116713</h4>
+            </div>
+            <div class="col">
+                <h3>Links <div class="underline"><span></span></div>
+                </h3>
+                <ul>
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="">About us</a></li>
+                    <li><a href="">Explore</a></li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Email Us- <div class="underline"><span></span></div>
+                </h3>
+                <form>
+                    <i class="far fa-envelope"></i>
+                    <input type="text" placeholder="Enter E-mail ID" required>
+                    <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                </form>
+                <div class="social-icons">
+                    <i id="fb" class="fab fa-facebook-f"></i>
+                    <i id="in" class="fab fa-instagram"></i>
+                    <i id="wh" class="fab fa-whatsapp"></i>
+                    <i id="tw" class="fab fa-twitter"></i>
+                </div>
+
+            </div>
+        </div>
+        <hr>
+        <p class="copyright">@Minor Project </p>
+    </footer>
+    <script type="text/javascript" src="{{ url_for('static',filename='dropdown.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='click.js') }}"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='scrollreveal.js') }}"></script>
+</body>
+
+</html>

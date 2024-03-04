@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suggesto</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+    <script src="https://kit.fontawesome.com/fac2c0482b.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.0/papaparse.min.js"></script>
+</head>
+
+<body id="content">
+     <div class="scrollbuttons">
+        <div class="detailsbutton">
+            <button class="detailsarrow">Go to Movie Deatils Area</button>
+            <span class="fa-solid fa-arrow-down"></span>
+            <i class="fa-solid fa-arrow-up"></i>
+        </div>
+        <div class="castbutton">
+            <button class="castarrow">Go to Movie Cast Area</button>
+            <span class="fa-solid fa-arrow-down"></span>
+            <i class="fa-solid fa-arrow-up"></i>
+        </div>
+        <div class="rcmdbutton">
+            <button class="rcmdarrow">Go to recommendation Area</button>
+                <span class="fa-solid fa-arrow-down"></span>
+                <i class="fa-solid fa-arrow-up"></i>
+        </div>
+     </div>
+    <div class="results">
+        <center>
+            <h2 id="name" class="text-uppercase">{{title}}</h2>
+        </center>
+    </div>
+    <div class="mycontent">
+        <div class="mcontent">
+            <div class="poster-lg">
+                <img class="poster" src="{{poster}}" alt="{{title}}">
+            </div>
+            <div class="details">
+                <h6 id="title"><font color="#d6dce1">TITLE:</FONT>&nbsp;&nbsp;&nbsp;<b>{{title}}</b></h6>
+                <h6 id="overview"><font color="#d6dce1">OVERVIEW:</FONT><br><br>&nbsp;&nbsp;&nbsp;&nbsp;{{overview}}</h6>
+                <h6 id="vote_average"><font color="#d6dce1">RATING:</FONT>&nbsp;&nbsp;&nbsp;{{vote_average}}/10 ({{vote_count}} votes)</h6>
+                <h6 id="genres"><font color="#d6dce1">GENRES:</FONT>&nbsp;&nbsp;&nbsp;{{genres}}</h6>
+                <h6 id="date"><font color="#d6dce1">RELEASE-DATE:</FONT>&nbsp;&nbsp;&nbsp;{{release_date}}</h6>
+                <h6 id="runtime"><font color="#d6dce1">RUNTIME:</FONT>&nbsp;&nbsp;&nbsp;{{runtime}}</h6>
+                <h6 id="status"><font color="#d6dce1">STATUS</FONT>&nbsp;&nbsp;&nbsp;{{status}}</h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="scrollbuttons">
+        <div class="detailsbutton">
+            <button class="detailsarrow">Go to Movie Deatils Area</button>
+            <span class="fa-solid fa-arrow-down"></span>
+            <i class="fa-solid fa-arrow-up"></i>
+        </div>
+        <div class="castbutton">
+            <button class="castarrow">Go to Movie Cast Area</button>
+            <span class="fa-solid fa-arrow-down"></span>
+            <i class="fa-solid fa-arrow-up"></i>
+        </div>
+        <div class="rcmdbutton">
+            <button class="rcmdarrow">Go to recommendation Area</button>
+                <span class="fa-solid fa-arrow-down"></span>
+                <i class="fa-solid fa-arrow-up"></i>
+        </div>
+     </div>
+
+    {% if casts|length > 1 %}
+    <div class="movie-cast">
+        <center>
+            <h3>MOVIE {{title}} TOP CAST FOR YOU</h3>
+        </center>
+    </div>
+
+    <div class="maincast-content">
+        {% for name, details in casts.items() if not casts.hidden %}
+        <div class="maincastcard">
+            <div class="castmaintitlee">
+                <h6>{{name|title}}</h6>
+            </div>
+            <div class="castcard">
+                <img id="{{details[0]}}" src="{{details[2]}}" alt="{{name|title}}">
+            </div>
+            <div class="castmaintitle">
+                <h6 class="casth" >Character-Name: <br> <b><font color="#f4c922">{{details[1]|title}}</FONT></b></h6>
+            </div>
+        </div>
+        {% endfor %} 
+    </div>
+    {% endif %}
+     
+    <div class="scrollbuttons">
+        <div class="detailsbutton">
+            <button class="detailsarrow">Go to Movie Deatils Area</button>
+            <span class="fa-solid fa-arrow-down"></span>
+            <i class="fa-solid fa-arrow-up"></i>
+        </div>
+        <div class="castbutton">
+            <button class="castarrow">Go to Movie Cast Area</button>
+            <span class="fa-solid fa-arrow-down"></span>
+            <i class="fa-solid fa-arrow-up"></i>
+        </div>
+        <div class="rcmdbutton">
+            <button class="rcmdarrow">Go to recommendation Area</button>
+                <span class="fa-solid fa-arrow-down"></span>
+                <i class="fa-solid fa-arrow-up"></i>
+        </div>
+     </div>
+
+    {% if movie_cards|length > 1 %}
+    <div class="movie">
+        <center>
+            <h3>RECOMMENDED MOVIES FOR <b>{{title}}</b>(MOVIE) FOR YOU</h3>
+            <h5>(Click any of the movies to get recommendation)</h5>
+        </center>
+    </div>
+
+    <div class="movie-content">
+        {% for poster, title in movie_cards.items() if not movie_cards.hidden %}
+        <div class="maincard" title="{{title}}" onclick="recommendcard(this)">
+            <div class="card">
+                <img src="{{poster}}" alt="{{title}}">
+            </div>
+            <div class="maintitle">
+                <h6>{{title|capitalize}}</h6>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% endif %}
+    <div class="scrollbuttons">
+        <div class="detailsbutton">
+            <button class="detailsarrow">Go to Movie Deatils Area</button>
+            <span class="fa-solid fa-arrow-down"></span>
+            <i class="fa-solid fa-arrow-up"></i>
+        </div>
+        <div class="castbutton">
+            <button class="castarrow">Go to Movie Cast Area</button>
+            <span class="fa-solid fa-arrow-down"></span>
+            <i class="fa-solid fa-arrow-up"></i>
+        </div>
+        <div class="rcmdbutton">
+            <button class="rcmdarrow">Go to recommendation Area</button>
+                <span class="fa-solid fa-arrow-down"></span>
+                <i class="fa-solid fa-arrow-up"></i>
+        </div>
+     </div>
+
+    <div class="typercmd">
+        <h5>Above Recommendations Are Based On { <b>Genres,</b> <b>Top Cast,</b> and <b>Director</b> }</h5>
+        <h6>(We have another model based on { <b>Overview,</b> <b>Keywords,</b> <b>Genres,</b> <b>Top Cast,</b> and <b>Director</b> })</h6>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $(".toggle").on("click", function () {
+                if ($(".item").hasClass("active")) {
+                    $(".item").removeClass("active");
+                } else {
+                    $(".item").addClass("active");
+                }
+            });
+        });
+    </script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="{{ url_for('static',filename='click.js') }}"></script>
+    <script src="{{ url_for('static',filename='recommend.js') }}"></script>
+   <script>
+    ScrollReveal().reveal('.text-uppercase, .movie-cast h3, .movie h3, .poster-lg, .maincard, .maincastcard, .detailsbutton', {origin: 'left'}, {delay: 50});
+ScrollReveal().reveal('.movie h5, .details, .castmaintitlee h6, .castmaintitle h6, .maintitle h6, .rcmdbutton', {origin: 'right'}, {delay: 50});
+ScrollReveal().reveal('.mycontent, .maincast-content, .movie-content', {origin: 'top'}, {delay: 25});
+ScrollReveal().reveal('.castbutton', {origin: 'buttom'}, {delay: 50});
+   </script>
+</body>
+
+</html>
