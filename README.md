@@ -45,6 +45,13 @@ Create an account in https://www.themoviedb.org/, click on the `API` link from t
   
 More about Cosine Similarity : [Understanding the Math behind Cosine Similarity](https://www.machinelearningplus.com/nlp/cosine-similarity/)
 
+## Demo Images
+
+(https://github.com/balram2002/Suggestto/blob/main/static/Screenshot%202024-03-21%20184200.png)
+(https://github.com/balram2002/Suggestto/blob/main/static/Screenshot%202024-03-21%20184220.png)
+(https://github.com/balram2002/Suggestto/blob/main/static/Screenshot%202024-03-21%20184232.png)
+(https://github.com/balram2002/Suggestto/blob/main/static/Screenshot%202024-03-21%20184256.png)
+
 ### Sources of the datasets 
 
 1. [IMDB 5000 Movie Dataset](https://www.kaggle.com/carolzhangdc/imdb-5000-movie-dataset)
