@@ -63,34 +63,66 @@ $(function() {
   }
   
   // passing the movie name to get the similar movies from python's flask
-  function movie_recs(movie_title,movie_id,my_api_key){
+ function movie_recs(movie_title, movie_id, my_api_key) {
+    // Show loader while processing
+    $("#loader").css('display', 'block');
+    
     $.ajax({
-      type:'POST',
-      url:"/similarity",
-      data:{'name':movie_title},
-      success: function(recs){
-        if(recs=="Sorry! The movie you requested is not in our database. Please check the spelling or try with some other movies"){
-          $('.fail').css('display','flex');
-          $('.results').css('display','none');
-          $("#loader").css('display','none');
+        type: 'POST',
+        url: "/similarity",
+        data: {
+            'name': movie_title
+        },
+        dataType: 'text', // Explicitly specify we're expecting text
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        beforeSend: function() {
+            // Clear previous results
+            $('.results').css('display', 'none');
+            $('.fail').css('display', 'none');
+        },
+        success: function(recs) {
+            $("#loader").css('display', 'none');
+            
+            // Check if response is empty or undefined
+            if (!recs || recs.trim() === '') {
+                $('.fail').css('display', 'flex');
+                $('.results').css('display', 'none');
+                return;
+            }
+            
+            // Handle error message from server
+            if (recs.includes("Sorry!") || recs.includes("error")) {
+                $('.fail').css('display', 'flex');
+                $('.results').css('display', 'none');
+                return;
+            }
+            
+            // Process successful response
+            $('.fail').css('display', 'none');
+            $('.results').css('display', 'block');
+            
+            try {
+                var movie_arr = recs.split('---').filter(movie => movie.trim() !== '');
+                if (movie_arr.length > 0) {
+                    get_movie_details(movie_id, my_api_key, movie_arr, movie_title);
+                } else {
+                    throw new Error("No movie recommendations found");
+                }
+            } catch (e) {
+                console.error("Error processing recommendations:", e);
+                $('.fail').css('display', 'flex');
+                $('.results').css('display', 'none');
+            }
+        },
+        error: function(xhr, status, error) {
+            $("#loader").css('display', 'none');
+            console.error("AJAX Error:", status, error);
+            console.log("Response:", xhr.responseText);
+            $('.fail').css('display', 'flex');
+            $('.results').css('display', 'none');
         }
-        else {
-          $('.fail').css('display','none');
-          $('.results').css('display','block');
-          var movie_arr = recs.split('---');
-          var arr = [];
-          for(const movie in movie_arr){
-            arr.push(movie_arr[movie]);
-          }
-          get_movie_details(movie_id,my_api_key,arr,movie_title);
-        }
-      },
-      error: function(){
-        alert("error recs");
-        $("#loader").css('display','none');
-      },
-    }); 
-  }
+    });
+}
   
   // get all the details of the movie using the movie id.
   function get_movie_details(movie_id,my_api_key,arr,movie_title) {
