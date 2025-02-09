@@ -15,4 +15,5 @@ lxml==4.9.3 --only-binary :all:
 urllib3==1.26.16
 requests==2.31.0
 pickleshare==0.7.5
+itsdangerous==2.0.1
 
