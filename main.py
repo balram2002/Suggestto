@@ -79,7 +79,7 @@ def registration():
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
-        hashed_password = generate_password_hash(password)
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
         db = get_database()
 
         user_cursor = db.execute("select * from users where username = ?", [username])
