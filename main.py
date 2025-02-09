@@ -108,7 +108,7 @@ def home():
 def similarity():
     movie = request.form['name']
     rc = rcmd(movie)
-    if type(rc)==type('string'):
+   if isinstance(rc, str):
         return rc
     else:
         m_str="---".join(rc)
