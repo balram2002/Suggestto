@@ -11,7 +11,7 @@ pandas==1.5.3
 beautifulsoup4==4.12.2
 jsonschema==4.17.3
 tmdbv3api==1.7.7
-lxml==4.9.3
+lxml==4.9.3 --only-binary :all:
 urllib3==1.26.16
 requests==2.31.0
 pickleshare==0.7.5
